@@ -2,19 +2,23 @@
 from flask import Flask, request, jsonify, send_file, render_template
 import os
 
-# Ensure Flask serves HTML from "templates"
+# Initialize Flask & set template folder
 app = Flask(__name__, template_folder="templates")
 
-# Init upload folder
+# Upload folder setup
 UPLOAD_FOLDER = "uploaded_files"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Serve the Web UI - default route
+### Serve the Web UI - Default Route ###
 @app.route('/')
 def upload_page():
-    return render_template('web_based_ui.html') # specify the html page where the file will be uploaded
+    return render_template('Vivi.html')  # Serves your HTML file
 
-# Upload API - upload route
+@app.route('/newpage')
+def new_page():
+    return render_template('Sanaatanam.html')
+
+### Upload API - Upload File ###
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -24,37 +28,33 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    # **Save file with its original name**
-    # file_path = os.path.join(UPLOAD_FOLDER, "latest_file.xlsx") # you specify the file name and extn
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename) # upload any file as it is oth name and extn
+    # Save file with its original name
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
 
     return jsonify({"message": "File uploaded successfully", "file_path": file_path})
 
-# Download API - download route
+### Download API - Download File ###
 @app.route('/download', methods=['GET'])
 def download_file():
-    filename = request.args.get("filename")  # Get filename from URL parameters
-    
+    filename = request.args.get("filename")  # Get filename from request
+
     if not filename:
         return jsonify({"error": "No filename provided"}), 400
 
-    file_path = os.path.join(UPLOAD_FOLDER, filename)  # Correct file path generation
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
 
     if os.path.exists(file_path):
-        return send_file(file_path, as_attachment=True)  # Send the file for download
-    return jsonify({"error": "File not found"}), 404  # Handle missing file case
+        return send_file(file_path, as_attachment=True)  # Serve file for download
+    return jsonify({"error": "File not found"}), 404  # Handle file not found
 
+### List Uploaded Files ###
 @app.route('/list-files', methods=['GET'])
 def list_files():
-    files = os.listdir(UPLOAD_FOLDER)  # Get list of all files in uploaded_files/
+    files = os.listdir(UPLOAD_FOLDER)  # Get list of all uploaded files
     return jsonify({"files": files})  # Return the file list as JSON
 
-
-# if __name__ == '__main__':
-    # port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
-    # app.run(host='0.0.0.0', port=port)
-
+### Run the Flask Server ###
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Read port from environment variable
-    app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 5000))  # Default to port 5000
+    app.run(host="0.0.0.0", port=port, debug=True)  # Debug mode for easy error tracking
