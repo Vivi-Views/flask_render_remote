@@ -45,6 +45,12 @@ def download_file():
         return send_file(file_path, as_attachment=True)  # Send the file for download
     return jsonify({"error": "File not found"}), 404  # Handle missing file case
 
+@app.route('/list-files', methods=['GET'])
+def list_files():
+    files = os.listdir(UPLOAD_FOLDER)  # Get list of all files in uploaded_files/
+    return jsonify({"files": files})  # Return the file list as JSON
+
+
 # if __name__ == '__main__':
     # port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
     # app.run(host='0.0.0.0', port=port)
