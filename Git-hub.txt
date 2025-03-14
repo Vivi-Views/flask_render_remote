@@ -1,0 +1,60 @@
+# Git-hub
+https://github.com/Vivi-Views
+https://dashboard.render.com/web/srv-cv2aqvggph6c73beiri0
+
+# Start Fast API - keep it running
+C:\Users\vivek\Documents\API_E2E\Type_5
+C:\Users\vivek\Documents\API_E2E\Type_5>py api_db_methods_5_3.py
+
+# Start another cmd terminal
+# C:\Users\vivek\Documents\API_E2E\Type_5>
+# If you haven't initialized Git
+# Run the following command to start tracking your project with Git
+git init
+
+# Name and Email
+git config --global user.name "Vivi-Views"
+git config --global user.email "kuchimanchivivekanand@gmail.com"
+
+git config --global user.name "Vivi-Views"
+git config --global user.email "kuchimanchivivekanand@gmail.com"
+
+# Check GIT Status
+git status
+
+# if : No commits yet Untracked files:You need to add and commit the files
+
+# Add and Commit Files
+git add .
+git commit -m "Another commit for FastAPI deployment"
+
+# if : nothing to commit, working tree clean
+# Your commit is fine. You just need to push
+
+# Link Your GitHub Repo
+git branch -M main
+
+# Push Code to GitHub
+git push -u origin main
+
+# To check if your local Git repository is updated with GitHub, run
+git fetch
+git status
+
+# -----------------------------------------------
+
+create a new repository on the command line
+
+echo "# flask_render_remote" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Vivi-Views/flask_render_remote.git
+git push -u origin main
+
+push an existing repository from the command line
+
+git remote add origin https://github.com/Vivi-Views/flask_render_remote.git
+git branch -M main
+git push -u origin main
