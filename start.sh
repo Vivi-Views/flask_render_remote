@@ -1,2 +1,2 @@
-"#!/bin/bash" 
-"gunicorn -b 0.0.0.0:\$PORT server:app" 
+#!/bin/bash 
+gunicorn -b 0.0.0.0:$PORT server:app 
