@@ -34,7 +34,7 @@ def upload_file():
 # Download API - download route
 @app.route('/download', methods=['GET'])
 def download_file():
-    file_path = os.path.join(UPLOAD_FOLDER, "latest_file.xlsx")
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     if os.path.exists(file_path):
         return send_file(file_path, as_attachment=True)
     return jsonify({"error": "File not found"}), 404
