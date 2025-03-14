@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Sanaatanam Hindu Services Web Service</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .upload-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 400px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .file-input {
+            margin-top: 10px;
+        }
+        .upload-btn {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+        .file-list {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            min-height: 30px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>Welcome to <br>Sanaatanam Hindu Services<br>Web Service</h2>
+        <p>Upload your file(s) here</p>
+        <input type="file" id="file" class="file-input" multiple>
+        <button class="upload-btn" onclick="uploadFile()">Upload</button>
+        <div class="file-list" id="file-list">[ ]</div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileList = document.getElementById('file-list');
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                let fileNames = Array.from(fileInput.files).map(file => file.name);
+                fileList.innerText = `[ ${fileNames.join(', ')} ]`;
+            } else {
+                fileList.innerText = '[ ]';
+            }
+        });
+
+        function uploadFile() {
+            if (!fileInput.files.length) {
+                alert('Please select at least one file to upload');
+                return;
+            }
+            alert('Files uploaded successfully!');
+        }
+    </script>
+</body>
+</html>
