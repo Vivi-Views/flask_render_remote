@@ -39,6 +39,10 @@ def download_file():
         return send_file(file_path, as_attachment=True)
     return jsonify({"error": "File not found"}), 404
 
+# if __name__ == '__main__':
+    # port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
+    # app.run(host='0.0.0.0', port=port)
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 5000))  # Read port from environment variable
+    app.run(host="0.0.0.0", port=port)
