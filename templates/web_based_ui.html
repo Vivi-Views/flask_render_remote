@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Excel File</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        #upload-form { margin: 20px auto; padding: 20px; border: 1px solid #ddd; width: 50%; }
+        button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Upload Your Excel File</h1>
+    <form id="upload-form">
+        <input type="file" id="file-input" accept=".xlsx" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h3 id="status"></h3>
+
+    <script>
+        document.getElementById("upload-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            let fileInput = document.getElementById("file-input");
+            if (fileInput.files.length === 0) {
+                alert("Please select a file!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            let response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            document.getElementById("status").innerText = result.message || result.error;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,12 +1,20 @@
-from flask import Flask, request, jsonify, send_file
+# Imports
+from flask import Flask, request, jsonify, send_file, render_template
 import os
 
-app = Flask(__name__)
+# Ensure Flask serves HTML from "templates"
+app = Flask(__name__, template_folder="templates")
 
-# Directory to store uploaded files
+# Init upload folder
 UPLOAD_FOLDER = "uploaded_files"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+# Serve the Web UI - default route
+@app.route('/')
+def upload_page():
+    return render_template('web_based_ui.html') # specify the html page where the file will be uploaded
+
+# Upload API - upload route
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -16,11 +24,14 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    file_path = os.path.join(UPLOAD_FOLDER, "latest_file.xlsx")
+    # **Save file with its original name**
+    # file_path = os.path.join(UPLOAD_FOLDER, "latest_file.xlsx") # you specify the file name and extn
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename) # upload any file as it is oth name and extn
     file.save(file_path)
 
     return jsonify({"message": "File uploaded successfully", "file_path": file_path})
 
+# Download API - download route
 @app.route('/download', methods=['GET'])
 def download_file():
     file_path = os.path.join(UPLOAD_FOLDER, "latest_file.xlsx")
@@ -29,4 +40,5 @@ def download_file():
     return jsonify({"error": "File not found"}), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
+    app.run(host='0.0.0.0', port=port)
