@@ -34,10 +34,16 @@ def upload_file():
 # Download API - download route
 @app.route('/download', methods=['GET'])
 def download_file():
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    filename = request.args.get("filename")  # Get filename from URL parameters
+    
+    if not filename:
+        return jsonify({"error": "No filename provided"}), 400
+
+    file_path = os.path.join(UPLOAD_FOLDER, filename)  # Correct file path generation
+
     if os.path.exists(file_path):
-        return send_file(file_path, as_attachment=True)
-    return jsonify({"error": "File not found"}), 404
+        return send_file(file_path, as_attachment=True)  # Send the file for download
+    return jsonify({"error": "File not found"}), 404  # Handle missing file case
 
 # if __name__ == '__main__':
     # port = int(os.environ.get('PORT', 10000))  # Render assigns a dynamic port
