@@ -12,11 +12,11 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ### Serve the Web UI - Default Route ###
 @app.route('/')
 def upload_page():
-    return render_template('Vivi.html')  # Serves your HTML file
+    return render_template('Sanaatanam.html')  # Serves your HTML file
 
 @app.route('/newpage')
 def new_page():
-    return render_template('Sanaatanam.html')
+    return render_template('Vivi.html')
 
 ### Upload API - Upload File ###
 @app.route('/upload', methods=['POST'])
