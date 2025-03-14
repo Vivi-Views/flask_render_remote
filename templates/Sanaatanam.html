@@ -69,14 +69,18 @@
     <div class="upload-container">
         <h2>Welcome to <br>Sanaatanam Hindu Services<br>Web Service</h2>
         <p>Upload your file(s) here</p>
-        <input type="file" id="file" class="file-input" multiple>
-        <button class="upload-btn" onclick="uploadFile()">Upload</button>
+        <form id="upload-form">
+            <input type="file" id="file" class="file-input" multiple required>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
         <div class="file-list" id="file-list">[ ]</div>
+        <h3 id="status"></h3>
     </div>
 
     <script>
         const fileInput = document.getElementById('file');
         const fileList = document.getElementById('file-list');
+        const statusMessage = document.getElementById('status');
 
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
@@ -87,13 +91,25 @@
             }
         });
 
-        function uploadFile() {
-            if (!fileInput.files.length) {
-                alert('Please select at least one file to upload');
+        document.getElementById("upload-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            if (fileInput.files.length === 0) {
+                alert("Please select a file!");
                 return;
             }
-            alert('Files uploaded successfully!');
-        }
+
+            let formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            let response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            statusMessage.innerText = result.message || result.error;
+        });
     </script>
 </body>
 </html>
