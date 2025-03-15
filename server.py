@@ -109,7 +109,7 @@ def list_files():
 #-------------------------------XXX-------------------------------
 
 ### Clear All Files from Render Server ###
-@app.route('/clear-files', methods=['POST'])
+@app.route('/clear-files', methods=['POST'])  # Ensure POST method is explicitly set
 def clear_files():
     auth = check_api_key()  # Verify API key before proceeding
     if auth:
