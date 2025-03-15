@@ -2,6 +2,9 @@
 from flask import Flask, request, jsonify, send_file, render_template
 import os
 import sys  # Import sys to force immediate printing
+import shutil
+
+#-------------------------------XXX-------------------------------
 
 # get flask api key from env vars
 API_KEY = os.getenv("FLASK_API_KEY")  # Get API key from environment variables
@@ -102,6 +105,30 @@ def list_files():
     auth = check_api_key()  # Verify API key before serving the page
     files = os.listdir(UPLOAD_FOLDER)  # Get list of all uploaded files
     return jsonify({"files": files})  # Return the file list as JSON
+
+#-------------------------------XXX-------------------------------
+
+### Clear All Files from Render Server ###
+@app.route('/clear-files', methods=['POST'])
+def clear_files():
+    auth = check_api_key()  # Verify API key before proceeding
+    if auth:
+        return auth  # If unauthorized, return 403 and stop execution
+
+    try:
+        if os.path.exists(UPLOAD_FOLDER):
+            # Delete all files in the directory
+            for filename in os.listdir(UPLOAD_FOLDER):
+                file_path = os.path.join(UPLOAD_FOLDER, filename)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+                    print(f"🗑️ Deleted: {file_path}")
+
+            return jsonify({"message": "All files deleted successfully"}), 200
+        else:
+            return jsonify({"message": "Folder already empty"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 #-------------------------------XXX-------------------------------
 
