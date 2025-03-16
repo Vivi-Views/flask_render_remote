@@ -132,6 +132,20 @@ def clear_files():
 
 #-------------------------------XXX-------------------------------
 
+@app.route("/delete-file", methods=["DELETE"])
+def delete_file():
+    auth = check_api_key()  # Verify API key before proceeding
+    filename = request.args.get("filename")
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        return jsonify({"message": f"{filename} deleted successfully"}), 200
+    else:
+        return jsonify({"error": "File not found"}), 404
+
+#-------------------------------XXX-------------------------------
+
 ### Run the Flask Server ###
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Default to port 5000
